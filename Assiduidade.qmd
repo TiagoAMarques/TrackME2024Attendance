@@ -41,6 +41,15 @@ index.not.aulas<-c(1,2)
 plot(1:nclasses,colSums(attend[,-index.not.aulas]),ylab="Number of students",xlab="Class")
 ```
 
+```{r file4readme,echo=FALSE}
+#not shown, but creates plot file for readme
+jpeg(filename="file4readme.jpg")
+#sum columns, except the first
+index.not.aulas<-c(1,2)
+plot(1:nclasses,colSums(attend[,-index.not.aulas]),ylab="Number of students",xlab="Class")
+dev.off()
+```
+
 And we can see how the students are doing per MSc program
 
 ```{r}
