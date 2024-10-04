@@ -1,0 +1,59 @@
+---
+title: "Attendance at Modelação Ecológica"
+format: html
+editor: visual
+---
+
+```{r,message=FALSE,warning=FALSE}
+#load required packages
+library(readxl)
+library(tidyverse)
+```
+
+## Introduction
+
+This document will track the attendance in ME course.
+
+It illustrates a dynamic report, where each week data changes and hence the attendance changes too.
+
+Data have been anonymized for RGPD reasons.
+
+## Reading the data
+
+Reading the data with function `read_excel` from package `readxl`:
+
+```{r}
+attend <- read_excel("TrackAttendance.xlsx")
+attend <- cbind(1:nrow(attend),attend)
+names(attend)[1]<-"student"
+nclasses<-24
+```
+
+This year there will be `r nclasses` of Modelação Ecológica.
+
+## Look at the data
+
+Count how many students per class, and then plot that information
+
+```{r}
+#sum columns, except the first
+index.not.aulas<-c(1,2)
+plot(1:nclasses,colSums(attend[,-index.not.aulas]),ylab="Number of students",xlab="Class")
+```
+
+And we can see how the students are doing per MSc program
+
+```{r}
+
+```
+
+# Modelling attendance
+
+We can reshape the data from the "wide" to the "long" format, and use that to model the attendance as a function of the class. I also included the course for fun (but this can't be interpreted yet, as the records are not complete). Later we might want to include a student random effect, since presumably some students will have a higher tendency to show in class!
+
+```{r}
+attendtodate<-attend[,c(rep(TRUE,length(index.not.aulas)),colSums(attend[,-index.not.aulas])>0)]
+attendtodatel<-gather(attendtodate,key=aula,value=present,aula1:tail(names(attendtodate),n=1))
+glm1<-glm(present~aula+curso,data=attendtodatel,family=binomial)
+summary(glm1)
+```
