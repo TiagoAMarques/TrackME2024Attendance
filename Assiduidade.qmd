@@ -41,7 +41,7 @@ index.not.aulas<-c(1,2)
 plot(1:nclasses,colSums(attend[,-index.not.aulas]),ylab="Number of students",xlab="Class")
 ```
 
-```{r file4readme,echo=FALSE}
+```{r file4readme,echo=FALSE,warning=FALSE,message=FALSE}
 #not shown, but creates plot file for readme
 jpeg(filename="file4readme.jpg")
 #sum columns, except the first
@@ -50,10 +50,10 @@ plot(1:nclasses,colSums(attend[,-index.not.aulas]),ylab="Number of students",xla
 dev.off()
 ```
 
-And we can see how the students are doing per MSc program
+And we can see how the students are doing per MSc program. Or we might when we have enough data to do so!
 
 ```{r}
-
+#placeholder for said analysis
 ```
 
 # Modelling attendance
@@ -63,6 +63,13 @@ We can reshape the data from the "wide" to the "long" format, and use that to mo
 ```{r}
 attendtodate<-attend[,c(rep(TRUE,length(index.not.aulas)),colSums(attend[,-index.not.aulas])>0)]
 attendtodatel<-gather(attendtodate,key=aula,value=present,aula1:tail(names(attendtodate),n=1))
+```
+
+and then implement the model
+
+```{r}
 glm1<-glm(present~aula+curso,data=attendtodatel,family=binomial)
 summary(glm1)
 ```
+
+Note some data cleaning is required before the analysis can be looked into. Some students were not registered in class and some classes were not delivered for reasons we do not control (e.g. Ciencias Research and Inovvation Day)
