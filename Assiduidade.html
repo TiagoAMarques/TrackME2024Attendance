@@ -139,16 +139,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   2 </code></pre>
 </div>
 </div>
-<p>And we can see how the students are doing per MSc program</p>
+<p>And we can see how the students are doing per MSc program. Or we might when we have enough data to do so!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#placeholder for said analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="modelling-attendance" class="level1">
 <h1>Modelling attendance</h1>
 <p>We can reshape the data from the “wide” to the “long” format, and use that to model the attendance as a function of the class. I also included the course for fun (but this can’t be interpreted yet, as the records are not complete). Later we might want to include a student random effect, since presumably some students will have a higher tendency to show in class!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>attendtodate<span class="ot">&lt;-</span>attend[,<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">TRUE</span>,<span class="fu">length</span>(index.not.aulas)),<span class="fu">colSums</span>(attend[,<span class="sc">-</span>index.not.aulas])<span class="sc">&gt;</span><span class="dv">0</span>)]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>attendtodatel<span class="ot">&lt;-</span><span class="fu">gather</span>(attendtodate,<span class="at">key=</span>aula,<span class="at">value=</span>present,aula1<span class="sc">:</span><span class="fu">tail</span>(<span class="fu">names</span>(attendtodate),<span class="at">n=</span><span class="dv">1</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>glm1<span class="ot">&lt;-</span><span class="fu">glm</span>(present<span class="sc">~</span>aula<span class="sc">+</span>curso,<span class="at">data=</span>attendtodatel,<span class="at">family=</span>binomial)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>attendtodate<span class="ot">&lt;-</span>attend[,<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">TRUE</span>,<span class="fu">length</span>(index.not.aulas)),<span class="fu">colSums</span>(attend[,<span class="sc">-</span>index.not.aulas])<span class="sc">&gt;</span><span class="dv">0</span>)]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>attendtodatel<span class="ot">&lt;-</span><span class="fu">gather</span>(attendtodate,<span class="at">key=</span>aula,<span class="at">value=</span>present,aula1<span class="sc">:</span><span class="fu">tail</span>(<span class="fu">names</span>(attendtodate),<span class="at">n=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and then implement the model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>glm1<span class="ot">&lt;-</span><span class="fu">glm</span>(present<span class="sc">~</span>aula<span class="sc">+</span>curso,<span class="at">data=</span>attendtodatel,<span class="at">family=</span>binomial)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -181,6 +187,7 @@ AIC: 378.54
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
+<p>Note some data cleaning is required before the analysis can be looked into. Some students were not registered in class and some classes were not delivered for reasons we do not control (e.g.&nbsp;Ciencias Research and Inovvation Day)</p>
 </section>
 
 </main>
