@@ -4,6 +4,6 @@ It illustrates a dynamic report, where each week data changes and hence the atte
 
 Data have been anonymized for RGPD reasons.
 
-After a few weeks holding strong, students are showing signs of fadigue...
+After a few weeks holding strong, students started showing signs of fatigue, and towards the end, only the brave persisted
 
-![The attendance till this week, in Modelação Ecológica 2024](file4readme.jpg)
+![Attendance in Modelação Ecológica 2024](file4readme.jpg)
